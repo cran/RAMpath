@@ -219,6 +219,9 @@ ramLCM<-function(data, outcome, model=c('all','no','linear','quadratic','latent'
 		fit.quadratic<-fitMeasures(results.quadratic)
 		cat("\n\n====================================================\nFit Statistics and Fit Indices for Model Comparisons\n====================================================\n\n")
 		all.fit<-cbind(fit.no,fit.linear, fit.latent, fit.quadratic)
+		chisq.per.df<-all.fit[1,]/all.fit[2,]
+		n.all<-nrow(all.fit)
+		all.fit<-rbind(all.fit[1:2, ], chisq.per.df, all.fit[3:n.all, ])		
 		colnames(all.fit)<-c("No","Linear","Latent","Quadratic")
 		print(all.fit,digits=digits)
 		invisible(return(list(lavaan=list(no=results.no, linear=results.linear, latent=results.latent, quadratic=results.quadratic), ram=list(no=ram.no, linear=ram.linear, latent=ram.latent, quadratic=ram.quadratic), fit=all.fit, model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic))))

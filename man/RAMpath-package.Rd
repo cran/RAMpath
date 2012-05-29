@@ -12,13 +12,13 @@ RAMpath is a rewrite of RAMpath software developed by John McArdle and Steven Bo
 \tabular{ll}{
 Package: \tab RAMpath\cr
 Type: \tab Package\cr
-Version: \tab 0.1.5\cr
+Version: \tab 0.1.6\cr
 Date: \tab 2012-05-29\cr
 License: \tab GPL\cr
 }
 
 }
 \author{
-Zhiyong Zhang and Jack McArdle
+Zhiyong Zhang, Jack McArdle, Aki Hamagami, and Kevin Grimm
 Maintainer: Zhiyong Zhang <zhiyongzhang@nd.edu>
 }
