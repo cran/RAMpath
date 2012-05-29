@@ -37,6 +37,11 @@ The length of arrows to plot
 Options for plot and arrows function.
 }
 }
+
+\references{
+Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2013). Using R Package RAMpath for Tracing SEM Path Diagrams and Conducting Complex Longitudinal Data Analysis. Structural Equation Modeling.
+}
+
 \examples{
 data(ex3)
 test.blcs<-ramBLCS(ex3, 1:6, 7:12, ram.out=TRUE)

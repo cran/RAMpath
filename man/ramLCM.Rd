@@ -47,6 +47,9 @@ Options can be used for lavaan
 \item{ram}{Output in terms of RAM matrices}
 \item{fit}{Model fit}
 }
+\references{
+Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2013). Using R Package RAMpath for Tracing SEM Path Diagrams and Conducting Complex Longitudinal Data Analysis. Structural Equation Modeling.
+}
 
 \examples{
 data(ex3)
@@ -65,7 +68,8 @@ gcm.all<-ramLCM(ex3, c(1,2,4,6), basis=c(1,2,4,6), ram.out=TRUE)
 gcm.l<-ramLCM(ex3, 1:6, model='linear', ram.out=TRUE)
 
 ## with a predictor
-gcm.pred<-ramLCM(ex3, c(1,2,4,6), model='linear', basis=c(1,2,4,6), predictor=c(3,5), ram.out=TRUE)
+gcm.pred<-ramLCM(ex3, c(1,2,4,6), model='linear', basis=c(1,2,4,6), 
+                 predictor=c(3,5), ram.out=TRUE)
 bridge3<-ramPathBridge(gcm.pred$ram$linear)
 plot(bridge3, 'gcmlinear')
 }

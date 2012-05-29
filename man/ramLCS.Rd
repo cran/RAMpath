@@ -54,12 +54,15 @@ Options can be used for lavaan
 \item{lavaan}{The lavaan output}
 \item{ram}{Output in terms of RAM matrices}
 }
+\references{
+Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2013). Using R Package RAMpath for Tracing SEM Path Diagrams and Conducting Complex Longitudinal Data Analysis. Structural Equation Modeling.
+}
 
 \examples{
 data(ex3)
 test.lcs<-ramLCS(ex3, 7:12)
 summary(test.lcs$lavaan, fit=TRUE)
 
-bridge<-ramPathBridge(test.lcs$ram, allbridge=FALSE,indirect=FALSE)
+bridge<-ramPathBridge(test.lcs$ram, allbridge=FALSE, indirect=FALSE)
 plot(bridge, 'lcs')
 }

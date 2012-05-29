@@ -7,9 +7,14 @@ data(ex2)
 }
 \description{
 Five variables in the data set:
+
 edu
+
 gender
+
 word sets (ws1)
+
 letter set (ls1)
+
 letter series (lt1)
 }

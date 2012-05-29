@@ -1,22 +1,26 @@
 \name{plot.RAMpath}
 \alias{plot.RAMpath}
 \alias{plot}
+\alias{plot.blcs}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Plot the path diagram according to RAM path and bridges
+Plot the path diagram according to RAM path and bridges or Plot the vector field for the bivariate latent change score model
 }
 \description{
-Plot the path diagram according to RAM path and bridges}
+Plot the path diagram according to RAM path and bridges or Plot the vector field for the bivariate latent change score model}
 \usage{
 \method{plot}{RAMpath}(x, file, from, to, type = c("path", "bridge"), 
 size = c(8, 8), node.font = c("Helvetica", 14), edge.font = c("Helvetica", 10),
 rank.direction = c("LR", "TB"), digits = 2, output.type = c("graphics", "dot"),
 graphics.fmt = "pdf", dot.options = NULL, ...)
+
+\method{plot}{blcs}(x, ylim, xlim, ninterval=10, scale=.1, length=.25, 
+scatter=TRUE, n=20, alpha=.95, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-Output from the \code{\link{ramPathBridge}} function
+Output from the \code{\link{ramPathBridge}} function or Output from the \code{\link{ramBLCS}} function
 }
   \item{file}{
 File name for the generated figures
@@ -56,7 +60,37 @@ a graphics format recognized by the dot program; the default is "pdf"; graphics.
   \item{dot.options}{
 options to be passed to the dot program, given as a character string.
 }
-  \item{\dots}{
-Other options for plot
+ \item{ylim}{
+Range of y data, for example, c(0,80) from 0 to 80
 }
+  \item{xlim}{
+Range of x data, for example, c(0,80) from 0 to 80
+}
+  \item{ninterval}{
+Number of intervals for plotting. The default is 10.
+}
+  \item{scale}{
+Time interval to calculate vector fields.
+}
+  \item{length}{
+The length of arrows to plot
+}
+\item{scatter}{Whether to plot the data points}
+\item{n}{The number of data points to be plotted}
+\item{alpha}{The confidence level to calculate the ellipse}
+  \item{\dots}{
+Options for plot and arrows function.
+}
+}
+
+\references{
+Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2013). Using R Package RAMpath for Tracing SEM Path Diagrams and Conducting Complex Longitudinal Data Analysis. Structural Equation Modeling.
+}
+
+
+\examples{
+data(ex3)
+test.blcs<-ramBLCS(ex3, 1:6, 7:12, ram.out=TRUE)
+ramVF(test.blcs, c(0,80),c(0,80), length=.05, xlab='X', ylab='Y',scale=.5, ninterval=9)
+plot(test.blcs, c(0,80),c(0,80), length=.05, xlab='X', ylab='Y',scale=.5, ninterval=9)
 }

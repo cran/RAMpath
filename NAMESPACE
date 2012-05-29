@@ -1,3 +1,4 @@
-export(lavaan2ram,ramFit,ramBLCS,ram2lavaan,ramLCM,ramLCS,ramMatrix,ramVF,ramPathBridge,ramUniquePath,ramEffectSE)
+export(lavaan2ram,ramFit,ramBLCS,ram2lavaan,ramLCM,ramLCS,ramMatrix,ramVF,ramPathBridge,ramUniquePath,ramEffectSE,ramReFit,ramShowModel)
 S3method(summary, RAMpath)
 S3method(plot, RAMpath)
+S3method(plot, blcs)

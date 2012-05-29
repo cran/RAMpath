@@ -7,7 +7,10 @@ data(ex1)
 }
 \description{
 Three variables in the data set:
+
 age:
+
 hvlt: Hopkins Verbal Learning Test
+
 ept: Everyday problem solving test
 }

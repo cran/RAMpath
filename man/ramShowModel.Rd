@@ -1,20 +1,26 @@
-\name{ram2lavaan}
-\alias{ram2lavaan}
+\name{ramShowModel}
+\alias{ramShowModel}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-RAM model to lavaan model
-}
+Show the model using Lavvan model syntax}
 \description{
-Convert RAM matrix specification to a lavaan model}
-\usage{
-ram2lavaan(model)
+Show the model using Lavvan model syntax
 }
+\usage{
+ramShowModel(object)}
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{model}{
-An ram model
+  \item{object}{
+Output from any data analysis
 }
 }
+\examples{
+data(ex3)
+gcm.l<-ramLCM(ex3, 1:6, model='linear', ram.out=TRUE)
+## Add correlated errors
+ramShowModel(gcm.l)
+}
+
 \references{
 Yves Rosseel (2012). lavaan: An R Package for Structural Equation Modeling. Journal of Statistical Software, 48(2), 1-36. URL http://www.jstatsoft.org/v48/i02/.
 

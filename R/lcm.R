@@ -174,22 +174,22 @@ ramLCM<-function(data, outcome, model=c('all','no','linear','quadratic','latent'
 		results.no<-growth(model=growth.no, data=data,...)
 		ram.no<-lavaan2ram(results.no, ram.out=ram.out)
 		summary(results.no, fit.measures=TRUE)
-		invisible(return(list(lavaan=list(no=results.no), ram=list(no=ram.no), model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic))))
+		invisible((list(lavaan=list(no=results.no), ram=list(no=ram.no), model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic), data=data, type=model)))
 	}else if (model=="linear"){
 		results.linear<-growth(model=growth.linear, data=data,...)
 		ram.linear<-lavaan2ram(results.linear, ram.out=ram.out)
 		summary(results.linear,fit.measures=TRUE)
-		invisible(return(list(lavaan=list(linear=results.linear), ram=list(linear=ram.linear), model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic))))
+		invisible((list(lavaan=list(linear=results.linear), ram=list(linear=ram.linear), model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic), data=data, type=model)))
 	}else if (model=="latent"){
 		results.latent<-growth(model=growth.latent, data=data,...)
 		ram.latent<-lavaan2ram(results.latent, ram.out=ram.out)
 		summary(results.latent,fit.measures=TRUE)
-		invisible(return(list(lavaan=list(latent=results.latent), ram=list(latent=ram.latent), model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic))))
+		invisible((list(lavaan=list(latent=results.latent), ram=list(latent=ram.latent), model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic), data=data, type=model)))
 	}else if (model=="quadratic"){
 		results.quadratic<-growth(model=growth.quadratic, data=data,...)
 		ram.quadratic<-lavaan2ram(results.quadratic, ram.out=ram.out)
 		summary(results.quadratic,fit.measures=TRUE)
-		invisible(return(list(lavaan=list(quadratic=results.quadratic), ram=list(quadratic=ram.quadratic), model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic))))
+		invisible((list(lavaan=list(quadratic=results.quadratic), ram=list(quadratic=ram.quadratic), model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic), data=data, type=model)))
 	}else if (model=="all"){
 		
 		results.no<-growth(model=growth.no, data=data,...)		
@@ -224,7 +224,7 @@ ramLCM<-function(data, outcome, model=c('all','no','linear','quadratic','latent'
 		all.fit<-rbind(all.fit[1:2, ], chisq.per.df, all.fit[3:n.all, ])		
 		colnames(all.fit)<-c("No","Linear","Latent","Quadratic")
 		print(all.fit,digits=digits)
-		invisible(return(list(lavaan=list(no=results.no, linear=results.linear, latent=results.latent, quadratic=results.quadratic), ram=list(no=ram.no, linear=ram.linear, latent=ram.latent, quadratic=ram.quadratic), fit=all.fit, model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic))))
+		invisible((list(lavaan=list(no=results.no, linear=results.linear, latent=results.latent, quadratic=results.quadratic), ram=list(no=ram.no, linear=ram.linear, latent=ram.latent, quadratic=ram.quadratic), fit=all.fit, model=list(no=growth.no, linear=growth.linear, latent=growth.latent, quadratic=growth.quadratic), data=data, type=model)))
 	}else{
 		stop("Wrong model option was used!")
 	}

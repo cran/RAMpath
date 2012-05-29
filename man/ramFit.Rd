@@ -37,7 +37,11 @@ Options for lavaan
 \item{lavaan}{Original lavaan output}
 \item{fit}{Model fit statistics and indices}
 }
+\references{
+Yves Rosseel (2012). lavaan: An R Package for Structural Equation Modeling. Journal of Statistical Software, 48(2), 1-36. URL http://www.jstatsoft.org/v48/i02/.
 
+Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2013). Using R Package RAMpath for Tracing SEM Path Diagrams and Conducting Complex Longitudinal Data Analysis. Structural Equation Modeling.
+}
 \examples{
 ## Example 1. A path model
 data(ex1)

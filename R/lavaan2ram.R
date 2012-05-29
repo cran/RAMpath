@@ -155,55 +155,53 @@ lavaan2ram<-function(fitModel, digits=2, zero.print="0", ram.out=TRUE, fit=FALSE
 	}
 }
 
-ramVF<-function(ramout, ylim, xlim, ninterval=10, scale=.1, length=.25, scatter=TRUE, n=20, alpha=.95, ...){
-	ind<-which(ramout$lavaan@ParTable$label=="betax")[1]
-	betax<-ramout$lavaan@Fit@est[ind]
-	
-	ind<-which(ramout$lavaan@ParTable$label=="gammax")[1]
-	gammax<-ramout$lavaan@Fit@est[ind]
-	
-	ind<-which(ramout$lavaan@ParTable$label=="betay")[1]
-	betay<-ramout$lavaan@Fit@est[ind]
-	
-	ind<-which(ramout$lavaan@ParTable$label=="gammay")[1]
-	gammay<-ramout$lavaan@Fit@est[ind]
-	
-	ind<-which(ramout$lavaan@ParTable$label=="mxs")[1]
-	mux<-ramout$lavaan@Fit@est[ind]
-	
-	ind<-which(ramout$lavaan@ParTable$label=="mys")[1]
-	muy<-ramout$lavaan@Fit@est[ind]
-	
-	x<-seq(xlim[1],xlim[2], length=ninterval)
-	y<-seq(ylim[1],ylim[2], length=ninterval)
-	xy<-expand.grid(x,y)
-	
-	x<-xy[,1]
-	y<-xy[,2]
-	
-	dx<-mux + betax*x + gammay*y
-	dy<-muy + betay*y + gammax*x
-	
-	x1<-x+scale*dx
-	y1<-y+scale*dy
-	
-	plot(x,y,type='n', ...)
-	arrows(x,y,x1,y1,length=length,...)	
-	
-	if (scatter){
-		alldata<-ramout$lavaan@Data@X[[1]]
-		xdata<-c(alldata[1:n, ramout$info$x])
-		ydata<-c(alldata[1:n, ramout$info$y])
-		points(xdata, ydata, col='grey', ...)
-		
-		## add confidence interval
-		##
-		xall <- c(alldata[,ramout$info$x])
-		yall <- c(alldata[,ramout$info$y])
-		
-		require(ellipse)		       
-		       lines(ellipse(cor(xall, yall), level=alpha, scale=c(sd(xall),sd(yall)), centre=c(mean(xall),mean(yall))), lwd=1.5, col="green")
+## Refit a model
+ramReFit<-function(object, add, ram.out=FALSE, ...){   
+   data<-object$data
+   if (!is.list(object$model)){
+		model<-paste(object$model, "\n", add)
+		fitModel<-lavaan(model=model, data=data, ...)
+		print(summary(fitModel, fit.measures=TRUE))
+		invisible((list(model=model, lavaan=fitModel, data=data)))
+	}else{
+		if (object$type=='no'){
+			model<-paste(object$model$no, "\n", add)
+			results.no<-growth(model=model, data=data,...)
+			print(summary(results.no, fit.measures=TRUE))
+			ram.no<-lavaan2ram(results.no, ram.out=ram.out)
+			invisible((list(lavaan=list(no=results.no), ram=list(no=ram.no), model=list(no=model), data=data, type=object$type)))
+		}else if (object$type=="linear"){
+			model<-paste(object$model$linear, "\n", add)
+			results.linear<-growth(model=model, data=data,...)
+			ram.linear<-lavaan2ram(results.linear, ram.out=ram.out)
+			print(summary(results.linear,fit.measures=TRUE))
+			invisible((list(lavaan=list(linear=results.linear), ram=list(linear=ram.linear), model=list(linear=model), data=data, type=object$type)))
+		}else if (object$type=="latent"){
+			model<-paste(object$model$latent, "\n", add)
+			results.latent<-growth(model=model, data=data,...)
+			ram.latent<-lavaan2ram(results.latent, ram.out=ram.out)
+			print(summary(results.latent,fit.measures=TRUE))
+			invisible((list(lavaan=list(latent=results.latent), ram=list(latent=ram.latent), model=list(latent=model), data=data, type=object$type)))
+		}else if (object$type=="quadratic"){
+			model<-paste(object$model$quadratic, "\n", add)
+			results.quadratic<-growth(model=model, data=data,...)
+			ram.quadratic<-lavaan2ram(results.quadratic, ram.out=ram.out)
+			print(summary(results.quadratic,fit.measures=TRUE))
+			invisible((list(lavaan=list(quadratic=results.quadratic), ram=list(quadratic=ram.quadratic), model=list(quadratic=model), data=data, type=object$type)))
+		}else{
+		stop("Refit is not allowed for this type of models!")
+		}
 	}
-	
-	invisible(cbind(x,y,x1,y1))
+}
+
+ramShowModel<-function(object){
+	if (!is.list(object$model)){
+		cat(object$model)
+		cat("\n")
+	}else{
+		for (i in 1:length(object$model)){
+			cat(object$model[[i]])
+			cat("\n\n")
+		}
+	}
 }

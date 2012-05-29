@@ -1033,7 +1033,7 @@ ramFit<-function(ramModel, data, type=c('ram','lavaan'), digits=3, zero.print="0
 	print(Sse.na,digits=digits,na.print = zero.print)
   lname<-NULL
 	if (nrow>manifest) lname=varName[(manifest+1):nrow]
-	invisible(return(list(A=A, S=S, Ase=Ase, Sse=Sse, M=M, Mse=Mse, fit=fitInd, lavaan=fitModel, nvar=nrow, manifest=manifest,latent=latent,lname=lname,varname=varName)))
+	invisible((list(A=A, S=S, Ase=Ase, Sse=Sse, M=M, Mse=Mse, fit=fitInd, lavaan=fitModel, nvar=nrow, manifest=manifest,latent=latent,lname=lname,varname=varName, model=lavaanModel, data=data)))
 }
 
 

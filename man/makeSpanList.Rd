@@ -18,3 +18,8 @@ S matrix from the ram matrices
 Standard error matrix for S matrix from the ram matrices
 }
 }
+\references{
+Boker, S. M., McArdle, J. J. & Neale, M. C. (2002) An algorithm for the hierarchical organization of path diagrams and calculation of components of covariance between variables. Structural Equation Modeling, 9(2), 174-194
+
+Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2013). Using R Package RAMpath for Tracing SEM Path Diagrams and Conducting Complex Longitudinal Data Analysis. Structural Equation Modeling.
+}
