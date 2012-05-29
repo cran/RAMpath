@@ -59,7 +59,7 @@ res1<-ramFit(m1, ex1)
 summary(res1$lavaan, fit=TRUE)
 
 ## Effects and variance decomposition
-bridge<-ramPathBridge(res1)
+bridge<-ramPathBridge(res1, allbridge=TRUE, indirect=TRUE)
 summary(bridge)
 summary(bridge, type='bridge')
 

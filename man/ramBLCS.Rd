@@ -113,5 +113,4 @@ plot(bridge, 'blcs')
 ## Test the vector field plot
 ## test.blcs is the output of the ramBLCS function.
 ramVF(test.blcs, c(0,80),c(0,80), length=.05, xlab='X', ylab='Y',scale=.5, ninterval=9)
-
 }

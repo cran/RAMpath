@@ -7,7 +7,7 @@ Generate path and bridges
 \description{
 Generate path and bridges}
 \usage{
-ramPathBridge(rammatrix, allbridge = TRUE, indirect = TRUE)
+ramPathBridge(rammatrix, allbridge = FALSE, indirect = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

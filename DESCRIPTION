@@ -1,7 +1,7 @@
 Package: RAMpath
 Type: Package
 Title: RAMpath
-Version: 0.2
+Version: 0.3.5
 Date: 2012-05-29
 Author: Zhiyong Zhang, Jack McArdle, Aki Hamagami, & Kevin Grimm
 Maintainer: Zhiyong Zhang <zzhang4@nd.edu>
@@ -11,12 +11,13 @@ Description: RAMpath is a rewrite of RAMpath software developed by John
         models, univariate and bivariate latent change score models. It
         can also generate the vector field plot for the bivariate
         latent change score models.
-Depends: R (>= 2.7), lavaan
+Depends: R (>= 2.0), lavaan, ellipse
 License: GPL-2
 URL: http://rpackages.psychstat.org
 Repository: CRAN
 Repository/R-Forge/Project: semdiag
-Repository/R-Forge/Revision: 36
-Repository/R-Forge/DateTimeStamp: 2012-10-22 14:28:01
-Date/Publication: 2012-10-24 06:33:17
-Packaged: 2012-10-23 06:27:42 UTC; rforge
+Repository/R-Forge/Revision: 60
+Repository/R-Forge/DateTimeStamp: 2013-03-01 20:31:03
+Date/Publication: 2013-03-07 19:26:53
+Packaged: 2013-03-05 15:15:43 UTC; rforge
+NeedsCompilation: no

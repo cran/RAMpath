@@ -8,7 +8,7 @@ Calculate the total and individual contribution for each path and bridge
 \description{
 Calculate the total and individual contribution for each path and bridge}
 \usage{
-\method{summary}{RAMpath}(object, from, to, type = c("path", "bridge"),...)
+\method{summary}{RAMpath}(object, from, to, type = c("path", "bridge"), se=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,6 +24,7 @@ to variable: end on this variable
   \item{type}{
 path: to calculate the effect; bridge: to calculate the bridges
 }
+\item{se}{Whether to generate se for direct and indirect effects.}
   \item{...}{
 Other options
 }

@@ -8,7 +8,7 @@ Generate a vector field plot based on the bivariate lcsm
 Generate a vector field plot based on the bivariate lcsm
 }
 \usage{
-ramVF(ramout, ylim, xlim, ninterval=10, scale=.1, length=.25, ...)}
+ramVF(ramout, ylim, xlim, ninterval=10, scale=.1, length=.25, scatter=TRUE, n=20, alpha=.95, ...)}
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{ramout}{
@@ -29,6 +29,9 @@ Time interval to calculate vector fields.
   \item{length}{
 The length of arrows to plot
 }
+\item{scatter}{Whether to plot the data points}
+\item{n}{The number of data points to be plotted}
+\item{alpha}{The confidence level to calculate the ellipse}
   \item{\dots}{
 Options for plot and arrows function.
 }

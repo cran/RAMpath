@@ -420,9 +420,9 @@ ramBLCS<-function(
 	summary(fitModel, fit.measures=TRUE)
 	if (ram.out){ 
 		ram=lavaan2ram(fitModel)
-		invisible(return(list(model=model, lavaan=fitModel, ram=ram)))
+		invisible(return(list(model=model, lavaan=fitModel, ram=ram, info=list(y=y,x=x))))
 	}else{
 	  ram=lavaan2ram(fitModel,ram.out=FALSE)
-		invisible(return(list(model=model, lavaan=fitModel, ram=ram)))
+		invisible(return(list(model=model, lavaan=fitModel, ram=ram, info=list(y=y,x=x))))
 	}
 }

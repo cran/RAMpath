@@ -127,13 +127,13 @@ ramRmOne<-function(input){
 ## Modified from Boker's Rampath2000 article and S scripts
 ## makePathList, makeSpanList, makeBridgeList
 
-makePathList <- function(AMatrix, indirect=TRUE) {
+makePathList <- function(AMatrix, Ase, indirect=TRUE) {
 	k <- 0
 	tIndex <- 1:10000
 	tFrom <- tTo <- tStartID <- tFromID <- tLength <- tValue <- rep(0, 10000)
 	tPath <- rep(NULL,10000) ## Save paths
-	tPathName<-rep(NULL,10000)
-	
+	tPathName<-tPathSig<-rep(NULL,10000)
+		
 	tNames<-rownames(AMatrix)
 	if (is.null(tNames)) tNames<-1:nrow(AMatrix)	
 	for (i in 1:nrow(AMatrix)) {
@@ -146,8 +146,13 @@ makePathList <- function(AMatrix, indirect=TRUE) {
 				tFromID[k] <- tIndex[k]
 				tLength[k] <- 1
 				tValue[k] <- AMatrix[i,j]
-				tPath[k]<-paste(j,'>',i,sep='')
-				tPathName[k]<-paste(tNames[j],'>',tNames[i],sep='')
+				tPath[k]<-paste(j,' > ',i,sep='')
+				tPathName[k]<-paste(tNames[j],' > ',tNames[i],sep='')
+				if (!missing(Ase)){
+					if (Ase[i,j] != 0){
+						tPathSig[k]<-abs(AMatrix[i,j]/Ase[i,j])
+					}
+				}				
 			}
 		}
 	}
@@ -173,8 +178,8 @@ makePathList <- function(AMatrix, indirect=TRUE) {
 					tFromID[k] <- tIndex[j]
 					tLength[k] <- 1 + maxLength
 					tValue[k] <- tValue[i] * tValue[j]
-					tPath[k]<-paste(tPath[i],'>',tTo[j],sep='')
-					tPathName[k]<-paste(tPathName[i],'>',tNames[tTo[j]],sep='')
+					tPath[k]<-paste(tPath[i],' > ',tTo[j],sep='')
+					tPathName[k]<-paste(tPathName[i],' > ',tNames[tTo[j]],sep='')
 				}
 			}
 		}		
@@ -183,16 +188,17 @@ makePathList <- function(AMatrix, indirect=TRUE) {
 	return(list(index=tIndex[1:k], fromVar=tFrom[1:k], 
 	            toVar=tTo[1:k], startID=tStartID[1:k], 
 	            fromID=tFromID[1:k], length=tLength[1:k], 
-				value=tValue[1:k], tPath=tPath[1:k], tPathName=tPathName[1:k], nPath=m))
+				value=tValue[1:k], tPath=tPath[1:k], tPathName=tPathName[1:k], nPath=m, tPathSig=tPathSig[1:m]))
 }
 
 
-makeSpanList <- function(SMatrix) {
+makeSpanList <- function(SMatrix, Sse) {
 	k <- 0
 	tIndex <- c(1:10000)
 	tVarA <- tVarB <- tValue <- rep(0, 10000)
 	tPath <- rep(NULL,10000) ## Save paths
-	tPathName <- rep(NULL,10000)
+	tPathName <- tPathSig <- tPathSE <- rep(NULL,10000)
+	
 	tNames<-rownames(SMatrix)
 	if (is.null(tNames)) tNames<-1:nrow(SMatrix)
 	
@@ -203,12 +209,20 @@ makeSpanList <- function(SMatrix) {
 				tVarA[k] <- j
 				tVarB[k] <- i
 				tValue[k] <- SMatrix[i,j]
-				tPath[k]<-paste(j,'<>',i,sep='')
-				tPathName[k]<-paste(tNames[j],'<>',tNames[i],sep='')
+				tPath[k]<-paste(j,' <> ',i,sep='')
+				tPathName[k]<-paste(tNames[j],' <> ',tNames[i],sep='')
+				
+				if (!missing(Sse)){
+					tPathSE[k] <- Sse[i,j]
+					if (tPathSE[k] != 0){
+						tPathSig[k]<-abs(tValue[k]/tPathSE[k])												
+						#cat(tValue[k], ' ', tPathSE[k], ' ', tPathSig[k],  " \n")
+					}
+				}
 			}
 		}
 	}
-	return(list(index=tIndex[1:k], varA=tVarA[1:k], varB=tVarB[1:k], value=tValue[1:k], tPath=tPath[1:k], tPathName=tPathName[1:k]))
+	return(list(index=tIndex[1:k], varA=tVarA[1:k], varB=tVarB[1:k], value=tValue[1:k], tPath=tPath[1:k], tPathName=tPathName[1:k], tPathSig=tPathSig[1:k]))
 }
 
 makeBridgeList <- function(pathList, spanList) {
@@ -241,8 +255,8 @@ makeBridgeList <- function(pathList, spanList) {
 				tPath1ID[k] <- pathList$index[j]
 				tPath2ID[k] <- 0
 				tValue[k] <- spanList$value[i] * pathList$value[j]
-				tPath[k]<-paste(ramFlip(pathList$tPath[j]), '<', tPath[i], sep='')
-				tPathName[k]<-paste(ramFlip(pathList$tPathName[j]), '<', tPathName[i], sep='')
+				tPath[k]<-paste(ramFlip(pathList$tPath[j]), ' < ', tPath[i], sep='')
+				tPathName[k]<-paste(ramFlip(pathList$tPathName[j]), ' < ', tPathName[i], sep='')
 			}
 			
 			if (spanList$varB[i] == pathList$fromVar[j]) {
@@ -253,8 +267,8 @@ makeBridgeList <- function(pathList, spanList) {
 				tPath1ID[k] <- 0
 				tPath2ID[k] <- pathList$index[j]
 				tValue[k] <- spanList$value[i] * pathList$value[j]
-				tPath[k]<-paste(ramFlip(pathList$tPath[j]), '<', tPath[i], sep='')
-				tPathName[k]<-paste(ramFlip(pathList$tPathName[j]), '<', tPathName[i], sep='')
+				tPath[k]<-paste(ramFlip(pathList$tPath[j]), ' < ', tPath[i], sep='')
+				tPathName[k]<-paste(ramFlip(pathList$tPathName[j]), ' < ', tPathName[i], sep='')
 			}
 			
 		}
@@ -272,8 +286,8 @@ makeBridgeList <- function(pathList, spanList) {
 						tPath1ID[k] <- pathList$index[j]
 						tPath2ID[k] <- pathList$index[h]
 						tValue[k] <- spanList$value[i] * pathList$value[j] * pathList$value[h]
-						tPath[k]<-paste(ramFlip(pathList$tPath[h]), "<", tPath[i],  substring(pathList$tPath[j],2), sep='')
-						tPathName[k]<-paste(ramFlip(pathList$tPathName[h]), "<", tPathName[i], ">", ramRmOne(pathList$tPathName[j]), sep='')
+						tPath[k]<-paste(ramFlip(pathList$tPath[h]), " < ", tPath[i],  substring(pathList$tPath[j],2), sep='')
+						tPathName[k]<-paste(ramFlip(pathList$tPathName[h]), " < ", tPathName[i], ">", ramRmOne(pathList$tPathName[j]), sep='')
 					}
 				}
 			}
@@ -283,14 +297,22 @@ makeBridgeList <- function(pathList, spanList) {
 	return(list(index=tIndex[1:k], varA=tVarA[1:k], 
 	            varB=tVarB[1:k], spanID=tSpanID[1:k], 
 	            path1ID=tPath1ID[1:k], path2ID=tPath2ID[1:k], 
-				value=tValue[1:k], path=tPath[1:k],pathName=tPathName[1:k]))
+				value=tValue[1:k], path=tPath[1:k],pathName=tPathName[1:k], tPathSig=pathList$tPathSig, tSpanSig=spanList$tPathSig))
 }
 
-ramPathBridge<-function(rammatrix, allbridge=TRUE, indirect=TRUE){
+ramPathBridge<-function(rammatrix, allbridge=FALSE, indirect=TRUE){
 	Amatrix<-rammatrix$A
 	Smatrix<-rammatrix$S
-	tPathlist <- makePathList(Amatrix,indirect=indirect)
-    tSpanlist <- makeSpanList(Smatrix)
+	if (is.null(rammatrix$Ase)) {
+		tPathlist <- makePathList(Amatrix,indirect=indirect)
+	}else{
+		tPathlist <- makePathList(Amatrix,rammatrix$Ase,indirect=indirect)
+	}
+    if (is.null(rammatrix$Sse)) {
+    	tSpanlist <- makeSpanList(Smatrix)
+    }else{
+    	tSpanlist <- makeSpanList(Smatrix,rammatrix$Sse)
+    }
     tBridgelist<-NULL
     if (allbridge) tBridgelist <- makeBridgeList(tPathlist, tSpanlist)
     ramobject<-list(path=tPathlist, bridge=tBridgelist, span=tSpanlist, ram=rammatrix)
@@ -300,7 +322,7 @@ ramPathBridge<-function(rammatrix, allbridge=TRUE, indirect=TRUE){
 
 plot.RAMpath <- function (x, file, from, to, type=c("path","bridge"), size = c(8, 8), node.font = c("Helvetica", 14), edge.font = c("Helvetica", 10), rank.direction = c("LR","TB"), digits = 2, output.type=c("graphics", "dot"), graphics.fmt="pdf", dot.options=NULL, ...)
 {
-  pathbridge<-x
+    pathbridge<-x
 	if (length(type)>1) type<-type[1]
 	tPathlist<-pathbridge$path
 	tBridgelist<-pathbridge$bridge
@@ -316,7 +338,10 @@ plot.RAMpath <- function (x, file, from, to, type=c("path","bridge"), size = c(8
 	tPathlist$value<-round(tPathlist$value,digits)
 	tSpanlist$value<-round(tSpanlist$value,digits)
 	if (!is.null(tBridgelist)) tBridgelist$value<-round(tBridgelist$value,digits)
-	
+	tPathSig<-pathbridge$path$tPathSig
+	tSpanSig<-pathbridge$span$tPathSig
+	tBridgelist$pathName <- gsub("[[:space:]]+", "", tBridgelist$pathName)
+	tPathlist$tPathName <- gsub("[[:space:]]+", "", tPathlist$tPathName)
 	
 	output.type <- match.arg(output.type)
 	
@@ -337,20 +362,55 @@ plot.RAMpath <- function (x, file, from, to, type=c("path","bridge"), size = c(8
 		cat(file = handle, paste("  edge [fontname=\"", edge.font[1],"\" fontsize=", edge.font[2], "];\n", sep = ""))
 		cat(file = handle, "  center=1;\n")
 		
-    if (!is.null(latent)){
-		for (lat in latent) {
-			cat(file = handle, paste("  \"", lat, "\" [shape=ellipse]\n",sep = ""))
-		}
-    }
-	
+    	if (!is.null(latent)){
+			for (lat in latent) {
+				cat(file = handle, paste("  \"", lat, "\" [shape=ellipse]\n",sep = ""))
+			}
+    	}
+    	
+    	## plot the mean if necessary
+    	if (max(abs(rammatrix$M))>0){
+    		cat(file = handle, paste("  \"1\" [shape=triangle]\n",sep = ""))
+    		cat(file = handle, paste("  \"1\" -> \"1\" [label=\"1\"   dir=both]\n",sep = ""))
+    	}
+    	
 		## single headed arrows	
 		for (i in 1:npath){
-			cat(file = handle, paste("  \"", varname[tPathlist$fromVar[i]], "\" -> \"", varname[tPathlist$toVar[i]], "\" [label=\"",tPathlist$value[i], "\"];\n", sep = ""))
+			sig<-''
+			if (!is.null(tPathSig)){
+				if (!is.na(tPathSig[i])){
+					if (tPathSig[i]>1.96) sig<-'*'
+				}
+			}
+			
+			cat(file = handle, paste("  \"", varname[tPathlist$fromVar[i]], "\" -> \"", varname[tPathlist$toVar[i]], "\" [label=\"",tPathlist$value[i], sig, "\"];\n", sep = ""))
 		}
+		
+		## for intercept / means
+		if (max(abs(rammatrix$M))>0){
+			Mpath<-which(abs(rammatrix$M)>0)
+    		for (i in Mpath){
+    			sig<-''
+    			if (rammatrix$Mse[i]!=0){
+    				temp<-rammatrix$M[i]/rammatrix$Mse[i]
+    				if (abs(temp)>1.96) sig<-'*'
+    			}
+    			
+    			cat(file = handle, paste("  \"1\" -> \"", rownames(rammatrix$M)[i], "\" [label=\"",round(rammatrix$M[i],digits=digits), sig, "\"];\n", sep = ""))
+    		}
+    	}
+    	
 		## double headed arrows	
 		for (i in 1:nspan){
-			if (tSpanlist$varA[i] >= tSpanlist$varB[i]) cat(file = handle, paste("  \"", varname[tSpanlist$varA[i]], "\" -> \"", varname[tSpanlist$varB[i]], "\" [label=\"", tSpanlist$value[i], "\"  dir=both];\n", sep = ""))
+			sig<-''
+			if (!is.null(tSpanSig)){
+				if (!is.na(tSpanSig[i])){
+					if (tSpanSig[i]>1.96) sig<-'*'
+				}
+			}
+			if (tSpanlist$varA[i] >= tSpanlist$varB[i]) cat(file = handle, paste("  \"", varname[tSpanlist$varA[i]], "\" -> \"", varname[tSpanlist$varB[i]], "\" [label=\"", tSpanlist$value[i], sig, "\"  dir=both];\n", sep = ""))
 		}
+		
 	
 		cat(file = handle, "}\n")
 		if (output.type == "graphics" && !missing(file)){
@@ -542,7 +602,7 @@ ramUniquePath<-function(tPathlist){
 	return(list(tUniquePath=tUniquePath[1:k, ], tUniqueName=name))
 }
 
-summary.RAMpath<-function(object, from, to, type=c("path","bridge"),...){
+summary.RAMpath<-function(object, from, to, type=c("path","bridge"), se=FALSE, ...){
   pathbridge<-object
 	if (length(type)>1) type<-type[1]
 	tPathlist<-pathbridge$path
@@ -550,6 +610,7 @@ summary.RAMpath<-function(object, from, to, type=c("path","bridge"),...){
 	tSpanlist<-pathbridge$span
 	rammatrix<-pathbridge$ram
 	varname<-rammatrix$varname	
+	nvar<-length(varname)
 	
 	if (missing(from)|missing(to)){	
 	## print the paths
@@ -560,23 +621,27 @@ summary.RAMpath<-function(object, from, to, type=c("path","bridge"),...){
 	cat('Path and its decomposions:\n\n')
 	nString<-max(nchar(tPathlist$tPathName))
 
-	txt<-sprintf(paste("%-",nString+8,"s %3s %12s %9s\n",sep=""), "Path Name", "", "value", "percent")
+	txt<-sprintf(paste("%-",nString+8,"s %4s %12s %9s\n",sep=""), "Path Name", "", "Value", "Pecent")
+	if (se) txt<-sprintf(paste("%-",nString+8,"s %4s %12s %12s %9s\n",sep=""), "Path Name", "", "Value", "se", "Pecent")
 	cat(txt)
 	for (i in 1:npath){
 		index<-which(tPathlist$fromVar==tUniquePath$tUniquePath[i,1] & tPathlist$toVar==tUniquePath$tUniquePath[i,2])
 		if (length(index)>0){
-			name<-paste(varname[tUniquePath$tUniquePath[i,1]],">",varname[tUniquePath$tUniquePath[i,2]],sep="")
+			name<-paste(varname[tUniquePath$tUniquePath[i,1]]," > ",varname[tUniquePath$tUniquePath[i,2]],sep="")
 			path<-length(index)
 			value<-sum(tPathlist$value[index])
 			percent<-100
-			txt<-sprintf(paste("%-",nString+8,"s %3.0f %12.3f %9.2f\n",sep=""), name, path, value, percent)
+			txt<-sprintf(paste("%-",nString+8,"s %4.0f %12.3f %9.2f\n",sep=""), name, path, value, percent)
+			if (se) txt<-sprintf(paste("%-",nString+8,"s %4.0f %12.3f %12s %9.2f\n",sep=""), name, path, value, " ", percent)
 			cat(txt)
 			for (j in 1:length(index)){
 				name<-tPathlist$tPathName[index[j]]
 				path<-j
 				value.j<-tPathlist$value[index[j]]
 				percent.j<-value.j/value*100
-				txt<-sprintf(paste("  %-",nString+6,"s %3.0f %12.3f %9.2f\n",sep=""), name, path, value.j, percent.j)
+				txt<-sprintf(paste("  %-",nString+6,"s   %4.0f %12.3f %9.2f\n",sep=""), name, path, value.j, percent.j)
+				se.j<-ramEffectSE(object, name)
+				if (se) txt<-sprintf(paste("  %-",nString+6,"s   %4.0f %12.3f %12.3f %9.2f\n",sep=""), name, path, value.j, se.j, percent.j)
 				cat(txt)
 			}
 		}
@@ -586,26 +651,26 @@ summary.RAMpath<-function(object, from, to, type=c("path","bridge"),...){
 		## col1: path col2: value col3: percent
 		nString<-max(nchar(tBridgelist$pathName))
 		cat('Covariance and its bridges:\n\n')
-		txt<-sprintf(paste("%-",nString+8,"s %3s %12s %9s\n",sep=""), "Path Name", "", "value", "percent")
+		txt<-sprintf(paste("%-",nString+8,"s %4s %12s %9s\n",sep=""), "Path Name", "", "Value", "Percent")
 		cat(txt)
-		nvar<-length(varname)
+		
 	
 		for (i in 1:nvar){
 			for (k in 1:i){
 				index<-which(tBridgelist$varA==i & tBridgelist$varB==k)
 				if (length(index)>0){
-					name<-paste(varname[i],"<>",varname[k],sep='')
+					name<-paste(varname[i]," <> ",varname[k],sep='')
 					path<-length(index)
 					value<-sum(tBridgelist$value[index])
 					percent<-100
-					txt<-sprintf(paste("%-",nString+8,"s %3.0f %12.3f %9.2f\n",sep=""), name, path, value, percent)
+					txt<-sprintf(paste("%-",nString+8,"s %4.0f %12.3f %9.2f\n",sep=""), name, path, value, percent)
 					cat(txt)
 					for (j in 1:length(index)){
 						name<-tBridgelist$pathName[index[j]]
 						path<-j
 						value.j<-tBridgelist$value[index[j]]
 						percent.j<-value.j/value*100
-						txt<-sprintf(paste("  %-",nString+6,"s %3.0f %12.3f %9.2f\n",sep=""), name, path, value.j, percent.j)
+						txt<-sprintf(paste("  %-",nString+6,"s   %4.0f %12.3f %9.2f\n",sep=""), name, path, value.j, percent.j)
 						cat(txt)
 					}## end of j loop
 		
@@ -614,7 +679,7 @@ summary.RAMpath<-function(object, from, to, type=c("path","bridge"),...){
 					path<-0
 					value<-NA
 					percent<-NA
-					txt<-sprintf(paste("%-",nString+8,"s %3.0f %12.3f %9.2f\n",sep=""), name, path, value, percent)
+					txt<-sprintf(paste("%-",nString+8,"s   %4.0f %12.3f %9.2f\n",sep=""), name, path, value, percent)
 					cat(txt)
 				}
 			}
@@ -629,13 +694,13 @@ summary.RAMpath<-function(object, from, to, type=c("path","bridge"),...){
 		if (type=="path"){						
 			cat('Path and its decomposions:\n\n')
 			nString<-max(nchar(tPathlist$tPathName))
-			txt<-sprintf(paste("%-",nString+8,"s %3s %12s %9s\n",sep=""), "Path Name", "", "value", "percent")
+			txt<-sprintf(paste("%-",nString+8,"s %3s %12s %9s\n",sep=""), "Path Name", "", "Value", "Percent")
 			cat(txt)
 
 			index<-which(tPathlist$fromVar==varA & tPathlist$toVar==varB)
 			if (length(index)==0) stop(paste("No such path from ",varname[varA]," to ",varname[varB], sep=""))
 			if (length(index)>0){
-				name<-paste(varname[varA],">", varname[varB],sep="")
+				name<-paste(varname[varA]," > ", varname[varB],sep="")
 				path<-length(index)
 				value<-sum(tPathlist$value[index])
 				percent<-100
@@ -655,13 +720,13 @@ summary.RAMpath<-function(object, from, to, type=c("path","bridge"),...){
 			## col1: path col2: value col3: percent
 			nString<-max(nchar(tBridgelist$pathName))
 			cat("Covariance and its bridges:\n\n")
-			txt<-sprintf(paste("%-",nString+8,"s %3s %12s %9s\n",sep=""), "Path Name", "", "value", "percent")
+			txt<-sprintf(paste("%-",nString+8,"s %3s %12s %9s\n",sep=""), "Path Name", "", "Value", "Percent")
 			cat(txt)
 					
 			index<-which(tBridgelist$varA==varA & tBridgelist$varB==varB)
 			if (length(index)==0) stop(paste("No covariance between ", varname[varA], " and ", varname[varB], sep=""))
 			if (length(index)>0){
-				name<-paste(varname[varA],"<>",varname[varB],sep='')
+				name<-paste(varname[varA]," <> ",varname[varB],sep='')
 				path<-length(index)
 				value<-sum(tBridgelist$value[index])
 				percent<-100
@@ -894,7 +959,7 @@ ramFit<-function(ramModel, data, type=c('ram','lavaan'), digits=3, zero.print="0
   }else{    
     lavaanModel<-ramModel
   }
-	fitModel<-lavaan(model= lavaanModel, data=data, ...)
+	fitModel<-lavaan(model= lavaanModel, data=data, fixed.x=FALSE, warn=FALSE, ...)
 	parTable<-fitModel@ParTable
 	parEst<-fitModel@Fit@est
 	parSE<-fitModel@Fit@se
@@ -917,7 +982,7 @@ ramFit<-function(ramModel, data, type=c('ram','lavaan'), digits=3, zero.print="0
 	
 	nrow<-length(varName)
 	A<-S<-Ase<-Sse<-matrix(0,nrow,nrow,dimnames=list(varName, varName))
-	
+	M<-Mse<-matrix(0,nrow,1,dimnames=list(varName, 'M'))
 	for (j in parTable$id){
 		if (parTable$op[j]=="~"){
 			A[parTable$lhs[j], parTable$rhs[j]]<-parEst[j]
@@ -968,7 +1033,7 @@ ramFit<-function(ramModel, data, type=c('ram','lavaan'), digits=3, zero.print="0
 	print(Sse.na,digits=digits,na.print = zero.print)
   lname<-NULL
 	if (nrow>manifest) lname=varName[(manifest+1):nrow]
-	invisible(return(list(A=A, S=S, Ase=Ase, Sse=Sse, fit=fitInd, lavaan=fitModel, nvar=nrow, manifest=manifest,latent=latent,lname=lname,varname=varName)))
+	invisible(return(list(A=A, S=S, Ase=Ase, Sse=Sse, M=M, Mse=Mse, fit=fitInd, lavaan=fitModel, nvar=nrow, manifest=manifest,latent=latent,lname=lname,varname=varName)))
 }
 
 
