@@ -639,9 +639,13 @@ summary.RAMpath<-function(object, from, to, type=c("path","bridge"), se=FALSE, .
 				path<-j
 				value.j<-tPathlist$value[index[j]]
 				percent.j<-value.j/value*100
-				txt<-sprintf(paste("  %-",nString+6,"s   %4.0f %12.3f %9.2f\n",sep=""), name, path, value.j, percent.j)
-				se.j<-ramEffectSE(object, name)
-				if (se) txt<-sprintf(paste("  %-",nString+6,"s   %4.0f %12.3f %12.3f %9.2f\n",sep=""), name, path, value.j, se.j, percent.j)
+				if (se){ 
+					se.j<-ramEffectSE(object, name)
+					txt<-sprintf(paste("  %-",nString+6,"s   %4.0f %12.3f %12.3f %9.2f\n",sep=""), name, path, value.j, se.j, percent.j)
+				}else{
+					txt<-sprintf(paste("  %-",nString+6,"s   %4.0f %12.3f %9.2f\n",sep=""), name, path, value.j, percent.j)
+				}
+					
 				cat(txt)
 			}
 		}

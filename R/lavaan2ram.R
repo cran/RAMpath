@@ -8,8 +8,8 @@ lavaan2ram<-function(fitModel, digits=2, zero.print="0", ram.out=TRUE, fit=FALSE
 	if (ngroup>1){
 		A<-S<-Ase<-Sse<-M<-Mse<-list()
 		for(g in 1:ngroup) {
-        	obsVar <- lavaan:::vnames(parTable, "ov", group=g)
-        	latVar <- lavaan:::vnames(parTable, "lv", group=g)
+        	obsVar <- lavNames(parTable, "ov", group=g)
+        	latVar <- lavNames(parTable, "lv", group=g)
         	varName<-c(obsVar, latVar)
 			manifest<-length(obsVar)
 			latent<-length(latVar)
@@ -85,8 +85,8 @@ lavaan2ram<-function(fitModel, digits=2, zero.print="0", ram.out=TRUE, fit=FALSE
   		if (latent>0) lname = varName[(manifest+1):nrow]
 		invisible(list(A=A, S=S, Ase=Ase, Sse=Sse, M=M, Mse=Mse, fit=fitInd, lavaan=fitModel, nvar=nrow, manifest=manifest,latent=latent,lname=lname,varname=varName))        	
 	}else{
-		obsVar <- lavaan:::vnames(parTable, "ov")
-        latVar <- lavaan:::vnames(parTable, "lv")
+		obsVar <- lavNames(parTable, "ov")
+        latVar <- lavNames(parTable, "lv")
 		varName<-c(obsVar, latVar)
 		manifest<-length(obsVar)
 		latent<-length(latVar)

@@ -502,8 +502,7 @@ ramVF<-function(ramout, ylim, xlim, ninterval=10, scale=.1, length=.25, scatter=
 		##
 		xall <- c(alldata[,ramout$info$x])
 		yall <- c(alldata[,ramout$info$y])
-		
-		require(ellipse)		       
+			       
 		       lines(ellipse(cor(xall, yall), level=alpha, scale=c(sd(xall),sd(yall)), centre=c(mean(xall),mean(yall))), lwd=1.5, col="green")
 	}
 	
@@ -556,9 +555,8 @@ plot.blcs<-function(x, ylim, xlim, ninterval=10, scale=.1, length=.25, scatter=T
 		##
 		xall <- c(alldata[,ramout$info$x])
 		yall <- c(alldata[,ramout$info$y])
-		
-		require(ellipse)		       
-		       lines(ellipse(cor(xall, yall), level=alpha, scale=c(sd(xall),sd(yall)), centre=c(mean(xall),mean(yall))), lwd=1.5, col="green")
+				       
+		lines(ellipse(cor(xall, yall), level=alpha, scale=c(sd(xall),sd(yall)), centre=c(mean(xall),mean(yall))), lwd=1.5, col="green")
 	}
 	
 	invisible(cbind(x,y,x1,y1))

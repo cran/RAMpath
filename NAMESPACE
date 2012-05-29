@@ -2,3 +2,5 @@ export(lavaan2ram,ramFit,ramBLCS,ram2lavaan,ramLCM,ramLCS,ramMatrix,ramVF,ramPat
 S3method(summary, RAMpath)
 S3method(plot, RAMpath)
 S3method(plot, blcs)
+import(lavaan)
+import(ellipse)
