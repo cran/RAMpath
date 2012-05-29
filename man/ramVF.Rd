@@ -8,7 +8,8 @@ Generate a vector field plot based on the bivariate lcsm
 Generate a vector field plot based on the bivariate lcsm
 }
 \usage{
-ramVF(ramout, ylim, xlim, ninterval=10, scale=.1, length=.25, scatter=TRUE, n=20, alpha=.95, ...)}
+ramVF(ramout, ylim, xlim, ninterval=10, scale=.1, length=.25, 
+scatter=TRUE, n=20, alpha=.95, ...)}
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{ramout}{

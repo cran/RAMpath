@@ -41,6 +41,14 @@ ramLCS<-function(data, ## data to be used
 		model<-paste(model, "ys=~1*dy", i, "\n ", sep="")
 	}
 	
+	for (i in 2:My){
+		model<-paste(model, "dy",i,"~~0*dy",i,"\n ", sep="")
+	}
+	
+	for (i in 1:My){
+		model<-paste(model, "y",i,"~~0*y",i,"\n ", sep="")
+	}
+	
 	model<-paste(model, "ys~~vary0ys*y0")
 	if (!missing(vary0ys)){
 		model<-paste(model, "+start(",vary0ys,")*y0\n ")
@@ -82,6 +90,7 @@ ramLCS<-function(data, ## data to be used
 	for (i in 2:My){
 		model<-paste(model, "dy",i,"~0*1\n ", sep="")
 	}
+	
 	
 	## for observed data part
 	if (ny < My){
@@ -173,6 +182,14 @@ ramBLCS<-function(
 	}
 	for (i in 2:My){
 		model<-paste(model, "ys=~1*dy", i, "\n ", sep="")
+	}
+	
+	for (i in 2:My){
+		model<-paste(model, "dy",i,"~~0*dy",i,"\n ", sep="")
+	}
+	
+	for (i in 1:My){
+		model<-paste(model, "y",i,"~~0*y",i,"\n ", sep="")
 	}
 	
 	model<-paste(model, "ys~~vary0ys*y0")
@@ -285,6 +302,14 @@ ramBLCS<-function(
 	}
 	for (i in 2:Mx){
 		model<-paste(model, "xs=~1*dx", i, "\n ", sep="")
+	}
+	
+	for (i in 2:Mx){
+		model<-paste(model, "dx",i,"~~0*dx",i,"\n ", sep="")
+	}
+	
+	for (i in 1:Mx){
+		model<-paste(model, "x",i,"~~0*x",i,"\n ", sep="")
 	}
 	
 	model<-paste(model, "xs~~varx0xs*x0")

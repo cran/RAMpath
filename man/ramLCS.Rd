@@ -7,7 +7,8 @@ Univariate latent change score model
 \description{
 Univariate latent change score model}
 \usage{
-ramLCS(data, y, timey, ram.out = FALSE, betay, my0, mys, varey, vary0, varys, vary0ys, ...)
+ramLCS(data, y, timey, ram.out = FALSE, betay, my0, mys, 
+varey, vary0, varys, vary0ys, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

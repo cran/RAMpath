@@ -7,7 +7,10 @@ Conduct bivariate latent change score analysis
 \description{
 Conduct bivariate latent change score analysis}
 \usage{
-ramBLCS(data, y, x, timey, timex, ram.out = FALSE, betax, betay, gammax, gammay, mx0, mxs, my0, mys, varex, varey, varx0, vary0, varxs, varys, varx0y0, varx0xs, vary0ys, varx0ys, vary0xs, varxsys, ...)
+ramBLCS(data, y, x, timey, timex, ram.out = FALSE, betax, 
+betay, gammax, gammay, mx0, mxs, my0, mys, varex, varey, 
+varx0, vary0, varxs, varys, varx0y0, varx0xs, vary0ys, 
+varx0ys, vary0xs, varxsys, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

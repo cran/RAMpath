@@ -7,7 +7,9 @@ Conduct growth curve analysis
 \description{
 Conduct growth curve analysis}
 \usage{
-ramLCM(data, outcome, model = c("all", "no", "linear", "quadratic", "latent"), basis = 0:(length(outcome) - 1), predictor, equal.var = TRUE, digits = 3, ram.out = FALSE, ...)
+ramLCM(data, outcome, model = c("all", "no", "linear", "quadratic", "latent"), 
+basis = 0:(length(outcome) - 1), predictor, equal.var = TRUE, digits = 3, 
+ram.out = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

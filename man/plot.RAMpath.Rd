@@ -8,7 +8,10 @@ Plot the path diagram according to RAM path and bridges
 \description{
 Plot the path diagram according to RAM path and bridges}
 \usage{
-\method{plot}{RAMpath}(x, file, from, to, type = c("path", "bridge"), size = c(8, 8), node.font = c("Helvetica", 14), edge.font = c("Helvetica", 10), rank.direction = c("LR", "TB"), digits = 2, output.type = c("graphics", "dot"), graphics.fmt = "pdf", dot.options = NULL, ...)
+\method{plot}{RAMpath}(x, file, from, to, type = c("path", "bridge"), 
+size = c(8, 8), node.font = c("Helvetica", 14), edge.font = c("Helvetica", 10),
+rank.direction = c("LR", "TB"), digits = 2, output.type = c("graphics", "dot"),
+graphics.fmt = "pdf", dot.options = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
