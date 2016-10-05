@@ -1,8 +1,9 @@
-5f5c6e3f4951d19948a793a018ed96e3 *DESCRIPTION
-00cf22c4cb7c1b5fa577d71a6db30f49 *NAMESPACE
+2dc5c4578d5111c3de58d4be82d4e243 *DESCRIPTION
+15a448c1876b8b4a6f50b8d3d726c706 *NAMESPACE
 92567fb591cb428527454f52afb35b3f *R/blcs.R
 1448fc3232699c2e5a80cd8455a0ccb8 *R/lavaan2ram.R
 17ea5b5c47cf8e03069bd608a9b3e373 *R/lcm.R
+bf1a63854db01464363d36b3956115b8 *R/power.R
 17387794f881f86017e1b3039dcf09fc *R/rampath.R
 3a3bd3c1c81cc72a09add450a3b1da99 *R/se.R
 e0d7e3fbfc346fdc2271ea2b95b7cd29 *data/ex1.txt.gz
@@ -18,6 +19,9 @@ f69246d8b85db5e09af5ba0380b2243f *man/makeBridgeList.Rd
 2dd1abea5786a19e904256d13d53998e *man/makePathList.Rd
 78b5268da1f958ad17573b918a83401f *man/makeSpanList.Rd
 2ab4bbe32ce0b6b0a5c129e6f14bbbe6 *man/plot.RAMpath.Rd
+262c0eddeaa9ba35273621f0a9d3b263 *man/plot.lcs.power.Rd
+dd266747f3b3455fcb5e9d241bcbca53 *man/powerBLCS.Rd
+4abdb63a77862b82498af27bde57f351 *man/powerLCS.Rd
 e41ee3d06f31cc20db74a5cd06894a9f *man/ram2lavaan.Rd
 719fe1f7b6bc0a296853d0c9c0b3530d *man/ramBLCS.Rd
 e867b81478a92e9c6dfe17f46538f165 *man/ramEffectSE.Rd
