@@ -45,7 +45,7 @@ varx0ys=0, vary0xs=0, varxsys=0, gammax=0, gammay=0, ...)
 A matrix with power for each parameter.
 }
 \references{
-Zhang, Z., & Liu, H. (2016). Sample Size Planning for Latent Change Score Models through Monte Carlo Simulation.
+Zhang, Z., & Liu, H. (2018). Sample size and measurement occasion planning for latent change score models through Monte Carlo simulation. In E. Ferrer, S. M. Boker, and K. J. Grimm (Eds.), Advances in longitudinal models for multivariate psychology: A festschrift for Jack McArdle (pp. 189-211). New York, NY: Routledge.
 }
 
 \examples{

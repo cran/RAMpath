@@ -48,7 +48,7 @@ Options can be used for lavaan
 \item{fit}{Model fit}
 }
 \references{
-Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2013). Using R Package RAMpath for Tracing SEM Path Diagrams and Conducting Complex Longitudinal Data Analysis. Structural Equation Modeling.
+Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2015). Using R package RAMpath for tracing SEM path diagrams and conducting complex longitudinal data analysis. Structural Equation Modeling, 22(1), 132-147. https://doi.org/10.1080/10705511.2014.935257
 }
 
 \examples{
@@ -57,7 +57,8 @@ data(ex3)
 gcm.all<-ramLCM(ex3, 1:6, ram.out=TRUE)
 ## plot the path diagram
 bridge<-ramPathBridge(gcm.all$ram$latent, FALSE, FALSE)
-plot(bridge, 'latent')
+## uncomment to plot
+## plot(bridge, 'latent')
 
 ##unequal variance
 gcm.all<-ramLCM(ex3, 1:6, ram.out=TRUE, equal.var=FALSE)
@@ -71,5 +72,6 @@ gcm.l<-ramLCM(ex3, 1:6, model='linear', ram.out=TRUE)
 gcm.pred<-ramLCM(ex3, c(1,2,4,6), model='linear', basis=c(1,2,4,6), 
                  predictor=c(3,5), ram.out=TRUE)
 bridge3<-ramPathBridge(gcm.pred$ram$linear)
-plot(bridge3, 'gcmlinear')
+## uncomment to plot
+## plot(bridge3, 'gcmlinear')
 }

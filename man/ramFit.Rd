@@ -40,7 +40,7 @@ Options for lavaan
 \references{
 Yves Rosseel (2012). lavaan: An R Package for Structural Equation Modeling. Journal of Statistical Software, 48(2), 1-36. URL http://www.jstatsoft.org/v48/i02/.
 
-Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2013). Using R Package RAMpath for Tracing SEM Path Diagrams and Conducting Complex Longitudinal Data Analysis. Structural Equation Modeling.
+Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2015). Using R package RAMpath for tracing SEM path diagrams and conducting complex longitudinal data analysis. Structural Equation Modeling, 22(1), 132-147. https://doi.org/10.1080/10705511.2014.935257
 }
 \examples{
 ## Example 1. A path model
@@ -68,13 +68,16 @@ summary(bridge)
 summary(bridge, type='bridge')
 
 ## plot the path diagram
-plot(bridge, 'ex1')
+## uncomment to plot
+## plot(bridge, 'ex1')
 
 ## plot the effects from age to ept
-plot(bridge, 'ex1effect', 'age','ept')
+## uncomment to plot
+## plot(bridge, 'ex1effect', 'age','ept')
 
 ## plot the bridges for ept
-plot(bridge, 'ex1bridge', 'ept','hvlt', type='bridge')
+## uncomment to plot
+## plot(bridge, 'ex1bridge', 'ept','hvlt', type='bridge')
 
 ## summarize
 summary(bridge)
@@ -95,6 +98,7 @@ mimic.ram<-lavaan2ram(mimic.res)
 
 ## plot the path diagram
 bridge<-ramPathBridge(mimic.ram, allbridge=FALSE, indirect=FALSE)
-plot(bridge, 'mimic')
+## uncomment to plot
+## plot(bridge, 'mimic')
 
 }

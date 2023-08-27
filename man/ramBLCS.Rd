@@ -102,7 +102,7 @@ Options can be used for \code{\link[lavaan]{lavaan}}
 \item{ram}{Output in terms of RAM matrices}
 }
 \references{
-Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2013). Using R Package RAMpath for Tracing SEM Path Diagrams and Conducting Complex Longitudinal Data Analysis. Structural Equation Modeling.
+Zhang, Z., Hamagami, F., Grimm, K. J., & McArdle, J. J. (2015). Using R package RAMpath for tracing SEM path diagrams and conducting complex longitudinal data analysis. Structural Equation Modeling, 22(1), 132-147. https://doi.org/10.1080/10705511.2014.935257
 }
 
 \examples{
@@ -113,7 +113,8 @@ test.blcs<-ramBLCS(ex3, 7:12, 1:6, ram.out=TRUE)
 summary(test.blcs$lavaan, fit=TRUE)
 
 bridge<-ramPathBridge(test.blcs$ram, allbridge=FALSE,indirect=FALSE)
-plot(bridge, 'blcs')
+## uncomment to plot
+## plot(bridge, 'blcs')
 
 
 ## Test the vector field plot
